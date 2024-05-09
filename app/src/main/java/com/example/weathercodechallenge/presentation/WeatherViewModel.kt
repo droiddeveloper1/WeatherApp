@@ -39,6 +39,9 @@ class WeatherViewModel @Inject constructor(
 
                 val newData = RelevantWeatherData(main, description, temperature, humidity, cloudCoverage, icon)
                 _data.value = newData
+            } ?: run {
+                // send a datum that represents a failed fetch
+                _data.value = null
             }
         }
 

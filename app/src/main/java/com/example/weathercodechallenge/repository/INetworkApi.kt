@@ -11,16 +11,19 @@ interface INetworkApi {
     @GET("weather")
     suspend fun getWeatherByCity(
         @Query("q") city:String,
-        @Query("appid") apiKey: String): Response<WeatherData>
+        @Query("appid") apiKey: String,
+        @Query("units") unit: String): Response<WeatherData>
 
-    @GET("weather?q={city},{cc}&appid={appID}")
+    @GET("weather")
     suspend fun getWeatherByCityCountry(
         @Query("q") cityCountryCode: String,
-        @Query("appid") apiKey: String): Response<WeatherData>
+        @Query("appid") apiKey: String,
+        @Query("units") unit: String): Response<WeatherData>
 
-    @GET("weather?q={city},{state},{cc}&appid={appID}")
+    @GET("weather")
     suspend fun getWeatherByCityStateCountry(
-        @Path("q") cityStateCountryCode: String,
-        @Path("appid") apiKey: String): Response<WeatherData>
+        @Query("q") cityStateCountryCode: String,
+        @Query("appid") apiKey: String,
+        @Query("units") unit: String): Response<WeatherData>
 
 }

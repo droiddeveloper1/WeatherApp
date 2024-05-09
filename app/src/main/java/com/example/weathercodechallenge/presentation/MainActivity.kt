@@ -1,10 +1,18 @@
 package com.example.weathercodechallenge.presentation
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,19 +20,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -50,6 +71,10 @@ class MainActivity : ComponentActivity() {
     val sharedPrefs = MyApp.appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     val prefsEditor = sharedPrefs.edit()
 
+    val locationPermissions = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,8 +85,36 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+
+            val locationPermissions = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
             WeatherCodeChallengeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+                val launcher = rememberLauncherForActivityResult(
+                    ActivityResultContracts.RequestMultiplePermissions()) { isGranted ->
+                        Toast.makeText(this, "isGranted = $isGranted", Toast.LENGTH_SHORT).show()
+                }
+                if(!areLocationPermissionsAlreadyGranted()){
+                    LaunchedEffect(Unit) {
+                        launcher.launch(locationPermissions)
+                    }
+                }
+
+                // State to manage when the Snackbar is shown
+                val snackbarVisibleState = remember { SnackbarHostState() }
+
+                Scaffold(
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackbarVisibleState)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(Alignment.CenterVertically))
+                    { innerPadding ->
+
                     //Dummy(listOf("abc","def","ghi","JKLM"))
 
                     val navController = rememberNavController()
@@ -78,7 +131,7 @@ class MainActivity : ComponentActivity() {
                                 // pass a function arg instead of objects in order to enforce encapsulation and hide implementation logic away from Call site:
                                 readPrefs = { key -> sharedPrefs.getString(key,"") ?: ""},
 
-                                modifier = Modifier.padding(innerPadding)
+                                snackbarHostState = snackbarVisibleState
                             )
                         }
                         composable(route = "screen_two") {
@@ -95,6 +148,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun areLocationPermissionsAlreadyGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
     fun savePref(key:String, value:String){
         prefsEditor.apply {
             putString(key, value)
@@ -108,8 +170,8 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
                fetchWeatherData: (String) -> Unit,
                savePrefs: (String, String) -> Unit,
                readPrefs: (String) -> String,
-               modifier: Modifier = Modifier) {
-    val data = stateflow.collectAsStateWithLifecycle()  // ensures that flow stops if composable removed
+               snackbarHostState: SnackbarHostState) {
+    val data: State<RelevantWeatherData?> = stateflow.collectAsStateWithLifecycle()  // ensures that flow stops if composable removed
     val coroutineScope = rememberCoroutineScope()   // ensures that scope is cancelled if composable removed
     var oldText = remember { mutableStateOf(readPrefs(PREFS_KEY_CITY)) }
     val icon = data.value?.icon
@@ -125,18 +187,24 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
 
         Text(
             text = "Outlook : ${data.value?.main}",
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
         )
         Text(
-            text = "Temperature : ${data.value?.temperature}",
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
+            text = "Temperature : ${data.value?.temperature} °C",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
         )
         Text(
-            text = "Humidity : ${data.value?.humidity}",
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
+            text = "Humidity : ${data.value?.humidity} %",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
         )
         Text(
-            text = "Cloud Coverage : ${data.value?.cloudCoverage}",
+            text = "Cloud Coverage : ${data.value?.cloudCoverage} %",
             modifier = Modifier.fillMaxWidth()
         )
         AsyncImage(
@@ -154,9 +222,17 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
 
                 // fetch new weather data from network
                 fetchWeatherData(oldText.value)
+
+                if(data.value == null){
+                    snackbarHostState.showSnackbar(
+                        message = "No Data Found for this city",
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
         },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
                 .padding(top = 30.dp)) {
             Text("Update Weather Data")
         }
@@ -171,6 +247,7 @@ fun Dummy(names: List<String>) {
     }
 }
 
+@Preview(showBackground = true)
 @Composable
 fun AppPreview() {
     WeatherCodeChallengeTheme {
@@ -182,7 +259,7 @@ fun AppPreview() {
             29,
             77,
                 "10d")
-        ), {}, ::dummy1, ::dummy2)
+        ), {}, ::dummy1, ::dummy2, SnackbarHostState())
     }
 }
 
@@ -190,7 +267,6 @@ fun dummy1(a:String, b:String){}
 
 fun dummy2(a:String):String{ return ""}
 
-@Preview(showBackground = true)
 @Composable
 fun DummyPreview() {
     val names = listOf("abc","def","ghi","JKLM")

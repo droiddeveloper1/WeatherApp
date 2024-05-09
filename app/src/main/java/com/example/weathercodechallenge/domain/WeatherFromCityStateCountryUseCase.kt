@@ -5,6 +5,7 @@ import com.example.weathercodechallenge.MyApp
 import com.example.weathercodechallenge.model.WeatherData
 import com.example.weathercodechallenge.repository.INetworkApi
 import com.example.weathercodechallenge.repository.SecureStorage
+import com.example.weathercodechallenge.repository.Units
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class WeatherFromCityStateCountryUseCase @Inject constructor(private val apiServ
 
             return try {
                 val combo = "${city.trim()},${state.trim()},${countryCode.trim()}"
-                val response: Response<WeatherData> = apiService.getWeatherByCityStateCountry(combo, id)
+                val response: Response<WeatherData> = apiService.getWeatherByCityStateCountry(combo, id, Units.metric.name)
                 if (response.isSuccessful) {
                     response.body()
                 } else {

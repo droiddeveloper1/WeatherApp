@@ -5,6 +5,7 @@ import com.example.weathercodechallenge.MyApp
 import com.example.weathercodechallenge.model.WeatherData
 import com.example.weathercodechallenge.repository.INetworkApi
 import com.example.weathercodechallenge.repository.SecureStorage
+import com.example.weathercodechallenge.repository.Units
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class WeatherFromCityUseCase @Inject constructor(private val apiService: INetwor
         apiKey?.let { id ->
 
             return try {
-                val response: Response<WeatherData> = apiService.getWeatherByCity(city, id)
+                val response: Response<WeatherData> = apiService.getWeatherByCity(city, id, Units.metric.name)
                 if (response.isSuccessful) {
                     response.body()
                 } else {
