@@ -24,7 +24,8 @@ class WeatherFromCityCountryUseCase @Inject constructor(private val apiService: 
         apiKey?.let { id ->
 
             return try {
-                val response: Response<WeatherData> = apiService.getWeatherByCityCountry(city, countryCode, id)
+                val combo = "${city.trim()},${countryCode.trim()}"
+                val response: Response<WeatherData> = apiService.getWeatherByCityCountry(combo, id)
                 if (response.isSuccessful) {
                     response.body()
                 } else {

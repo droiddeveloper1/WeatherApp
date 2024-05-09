@@ -41,7 +41,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
+/**
+ * Single-Activity app. Entry point for Hilt dependency injection
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -80,23 +82,14 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(route = "screen_two") {
-                            // @ToDo other screens to be implemented as needed ...
+                            // @ToDo additional screens to be implemented as needed ...
                             // ScreenTwo()
                         }
                         composable(route = "screen_three") {
-                            // @ToDo other screens to be implemented as needed ...
+                            // @ToDo additional screens to be implemented as needed ...
                             // ScreenThree()
                         }
                     }
-
-                    /*MainScreen(
-                        vm.data,   // to enforce OO encapsulation, do not pass viewmodel directly to any composable; pass just the state instead
-                        fetchWeatherData = vm::fetchWeatherByCity, // pass just the viewmodel's function instead of passing viewmodel itself
-                        savePrefs = { key,data -> savePref(key,data) },
-                        readPrefs = { key -> sharedPrefs.getString(key,"") ?: ""},
-                        modifier = Modifier.padding(innerPadding)
-                    )*/
-
                 }
             }
         }
@@ -119,7 +112,6 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
     val data = stateflow.collectAsStateWithLifecycle()  // ensures that flow stops if composable removed
     val coroutineScope = rememberCoroutineScope()   // ensures that scope is cancelled if composable removed
     var oldText = remember { mutableStateOf(readPrefs(PREFS_KEY_CITY)) }
-   // val ctx = LocalContext.current
     val icon = data.value?.icon
     val imageUrl = BASE_IMAGE_URL + icon + IMAGE_SUFFIX
 
@@ -158,7 +150,6 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
         Button(onClick = {
             coroutineScope.launch {
                 // cache the current city value
-               // PrefsManager.saveToDatastore(PREFS_KEY_CITY, oldText.value)
                 savePrefs(PREFS_KEY_CITY, oldText.value)
 
                 // fetch new weather data from network

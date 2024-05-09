@@ -11,20 +11,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * view model for fetching and emitting weather data
+ */
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val getCityWeatherUseCase: WeatherFromCityUseCase,
     private val getCityCountryWeatherUseCase: WeatherFromCityCountryUseCase,
     private val getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase
 ): ViewModel()  {
-/*
-class WeatherViewModel(): ViewModel()  {
-
-    @Inject lateinit private var getCityWeatherUseCase: WeatherFromCityUseCase
-    @Inject lateinit private var getCityCountryWeatherUseCase: WeatherFromCityCountryUseCase
-    @Inject lateinit private var getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase
-*/
 
     private val _data = MutableStateFlow<RelevantWeatherData?>(null)
     val data = _data.asStateFlow()
@@ -50,7 +45,7 @@ class WeatherViewModel(): ViewModel()  {
     }
 
     /**
-     * UNUSED
+     * UNUSED. TBD.
      */
     fun fetchWeatherByCityCountry(city: String, countryCode: String) {
         viewModelScope.launch {
@@ -64,7 +59,7 @@ class WeatherViewModel(): ViewModel()  {
     }
 
     /**
-     * UNUSED
+     * UNUSED. TBD.
      */
     fun fetchWeatherByCityStateCountry(city: String, state: String, countryCode: String) {
         viewModelScope.launch {

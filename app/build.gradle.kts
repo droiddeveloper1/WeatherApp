@@ -94,6 +94,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofitConverter)
     implementation(libs.okhttp)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+
     // JSON/GSON
     implementation(libs.kotlinx.serialization.json)
 
