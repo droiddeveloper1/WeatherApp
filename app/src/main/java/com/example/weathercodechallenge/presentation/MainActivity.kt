@@ -208,10 +208,10 @@ fun MainScreen(stateflow: StateFlow<RelevantWeatherData?>,
             modifier = Modifier.fillMaxWidth()
         )
         AsyncImage(
-            model = imageUrl,
+            model = imageUrl.trim(),
             //painter = painter,
             contentDescription = "weather image",
-            modifier = Modifier.size(70.dp),
+            modifier = Modifier.size(100.dp),
            // contentScale = ContentScale.Crop // Adjust cropping to suit your layout needs
         )
 
