@@ -118,4 +118,7 @@ dependencies {
 
     implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
 
+    // image handling
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
 }

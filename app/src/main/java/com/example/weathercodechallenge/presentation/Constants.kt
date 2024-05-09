@@ -2,9 +2,8 @@ package com.example.weathercodechallenge.presentation
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 
+const val PREFS_NAME = "main"
 const val PREFS_KEY_CITY = "key_city"
-
-val weatherIconsMap: HashMap<String, String> = hashMapOf()
 
 val countrCodesMap: HashMap<String,String> = hashMapOf(
     "Albania" to "AL",

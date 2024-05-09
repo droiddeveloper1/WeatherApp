@@ -5,10 +5,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.weathercodechallenge.MyApp
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.singleOrNull
 
 /**
- * provides functions for interacting with preferences datastore
+ * provides functions for interacting with preferences datastore.
  */
 object PrefsManager {
 
@@ -21,21 +23,32 @@ object PrefsManager {
     /**
      * make this a suspend fn as it may block UI
      */
-    suspend fun readFromDatastore(key: String, ctx: Context): String? {
+    suspend fun readFromDatastore(key: String): String? {
         val datastoreKey = stringPreferencesKey(key)
-        val prefs = ctx.dataStore.data.singleOrNull()     // capture first emission of flow
+        val prefs = MyApp.appContext.dataStore.data.singleOrNull()     // capture first emission of flow
         prefs?.let{
             return it[datastoreKey]
         }
         return null
     }
 
+    // Function to read a string from DataStore
+    fun fetchFromDatastore(key: String): Flow<String?> {
+        val datastoreKey = stringPreferencesKey(key)
+
+
+        return MyApp.appContext.dataStore.data.map { preferences ->
+                // Return the string or null if it doesn't exist
+                preferences[datastoreKey] ?: ""
+            }
+    }
+
     /**
      * make this a suspend fn as it may block UI
      */
-    suspend fun saveToDatastore(key: String, value: String, ctx: Context){
+    suspend fun saveToDatastore(key: String, value: String){
         val datastoreKey = stringPreferencesKey(key)
-        ctx.dataStore.edit{
+        MyApp.appContext.dataStore.edit{
             it[datastoreKey] = value
         }
     }

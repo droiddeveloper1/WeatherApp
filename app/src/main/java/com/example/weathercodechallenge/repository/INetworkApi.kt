@@ -7,18 +7,18 @@ import retrofit2.http.Path
 
 interface INetworkApi {
 
-    @GET("?q={city}&appid={appID}")
+    @GET("weather?q={city}&appid={appID}")
     suspend fun getWeatherByCity(
         @Path("city") city: String,
         @Path("appid") apiKey: String): Response<WeatherData>
 
-    @GET("?q={city},{cc}&appid={appID}")
+    @GET("weather?q={city},{cc}&appid={appID}")
     suspend fun getWeatherByCityCountry(
         @Path("city") city: String,
         @Path("cc") countryCode: String,
         @Path("appid") apiKey: String): Response<WeatherData>
 
-    @GET("?q={city},{state},{cc}&appid={appID}")
+    @GET("weather?q={city},{state},{cc}&appid={appID}")
     suspend fun getWeatherByCityStateCountry(
         @Path("city") city: String,
         @Path("state") state: String,
@@ -33,7 +33,7 @@ interface INetworkApi {
 
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_DATA_URL)
                 .build()
             return retrofit.create(INetworkApi::class.java)
 

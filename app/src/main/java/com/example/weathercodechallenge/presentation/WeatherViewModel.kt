@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
+
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -18,11 +18,19 @@ class WeatherViewModel @Inject constructor(
     private val getCityCountryWeatherUseCase: WeatherFromCityCountryUseCase,
     private val getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase
 ): ViewModel()  {
+/*
+class WeatherViewModel(): ViewModel()  {
+
+    @Inject lateinit private var getCityWeatherUseCase: WeatherFromCityUseCase
+    @Inject lateinit private var getCityCountryWeatherUseCase: WeatherFromCityCountryUseCase
+    @Inject lateinit private var getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase
+*/
 
     private val _data = MutableStateFlow<RelevantWeatherData?>(null)
     val data = _data.asStateFlow()
 
     fun fetchWeatherByCity(city: String) {
+
         viewModelScope.launch {
             // fetch the data
             val result = getCityWeatherUseCase(city)
@@ -34,15 +42,11 @@ class WeatherViewModel @Inject constructor(
                 val cloudCoverage = it.clouds.all
                 val icon = it.weather[0].icon
 
-                val newData = RelevantWeatherData(main, description, temperature, humidity, cloudCoverage)
+                val newData = RelevantWeatherData(main, description, temperature, humidity, cloudCoverage, icon)
                 _data.value = newData
-
-                // now fetch the associated weather icon
             }
-
-            // now extract just the useful pieces of data to display to user
-            //
         }
+
     }
 
     /**

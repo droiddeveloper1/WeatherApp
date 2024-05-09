@@ -1,10 +1,11 @@
 package com.example.weathercodechallenge.di
 
+import android.app.Application
 import android.content.Context
 import com.example.weathercodechallenge.MyApp
 import com.example.weathercodechallenge.common.PrefsManager
 import com.example.weathercodechallenge.presentation.PREFS_KEY_CITY
-import com.example.weathercodechallenge.repository.BASE_URL
+import com.example.weathercodechallenge.repository.BASE_DATA_URL
 import com.example.weathercodechallenge.repository.INetworkApi
 import dagger.Module
 import dagger.Provides
@@ -28,28 +29,15 @@ object AppModule {
     fun provideINetworkApi(): INetworkApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_DATA_URL)
             .build()
             .create(INetworkApi::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideMyApp(@ApplicationContext app: Context): MyApp{
+    fun provideMyApp(app: Application): MyApp{
         return app as MyApp
-    }
-
-    /**
-     * provides cached city name from a prior user session.
-     * this is useful for unit-testing because this @Provides function can be
-     * replaced with a dummy that simply injects a new/fake city
-     */
-    @Provides
-    @Singleton
-    @Named("city")
-    fun provideCityName(@ApplicationContext ctx: Context) = runBlocking {
-        val cachedCity = PrefsManager.readFromDatastore(PREFS_KEY_CITY, ctx) ?: ""
-        return@runBlocking cachedCity
     }
 
     @Provides
