@@ -8,9 +8,13 @@ auto-populate the UI fields with local weather.
 
 # Technologies used
 Kotlin
+
 Gradle kts
+
 Dagger-Hilt
+
 MVVM
+
 Coroutines
 Flow
 Retrofit
