@@ -8,7 +8,7 @@ auto-populate the UI fields with local weather.
 
 
 
-#@ToDo
+# @ToDo
 - add unit tests to cover the domain layer use cases and add more dependency injections as needed to facilitate unit testing
 - fix instrumented unit tests 
 - replace SharedPreferences mechanism with Preferences Datastore mechanism
