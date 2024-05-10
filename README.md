@@ -1,6 +1,6 @@
 # WeatherApp
 A Kotlin Jetpack Compose app that allows user to enter location(city) info and fetches the local weather info from a remote
-server, then displays pieces of relevant weather info back tothe user along with the appropriate weather graphic/icon for the
+server, then displays pieces of relevant weather info back to the user along with the appropriate weather graphic/icon for the
 current weather conditions in that city.
 
 Requests location access in order to perform a reverse geo lookup, determine the local city name, then fetch the weather info and
