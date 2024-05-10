@@ -11,6 +11,8 @@ Kotlin
 
 Gradle kts
 
+Gradle Version Catalog
+
 Dagger-Hilt
 
 MVVM
