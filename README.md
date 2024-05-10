@@ -40,7 +40,7 @@ Mockito
 
 # @ToDo
 - add unit tests to cover the domain layer use cases and add more dependency injections as needed to facilitate unit testing
-- fix instrumented unit tests 
+- expand instrumented unit tests 
 - replace *SharedPreferences* mechanism with *Preferences Datastore* mechanism
 - create a flexible Units selection mechanism instead of hardcoding to metric units
 - move the API key away from BuildConfig and into JNI/C++ layer instead
