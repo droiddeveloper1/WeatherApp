@@ -21,7 +21,9 @@ class MyApp: Application(){
         MyApp.appContext = applicationContext
     }
 
+    fun customMethod(): String = "Custom behavior"
+
     companion object {
-        lateinit  var appContext: Context
+        lateinit var appContext: Context
     }
 }

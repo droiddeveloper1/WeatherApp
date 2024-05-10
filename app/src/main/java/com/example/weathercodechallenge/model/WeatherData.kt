@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class WeatherData(
     val base: String,
 
-    val clouds: CloudsX,
+    val clouds: Clouds,
 
     val cod: Int,
 
@@ -16,11 +16,11 @@ data class WeatherData(
 
     val id: Int,
 
-    val main: PhysicsX,
+    val main: Physics,
 
     val name: String,
 
-    val rain: RainX,
+    val rain: Rain,
 
     val sys: Sys,
 
@@ -28,12 +28,12 @@ data class WeatherData(
 
     val visibility: Int,
 
-    val weather: List<WeatherX>,
+    val weather: List<Weather>,
 
-    val wind: WindX
+    val wind: Wind
 )
 
-data class PhysicsX(
+data class Physics(
     val feels_like: Double,
     val grnd_level: Int,
     val humidity: Int,
@@ -44,7 +44,7 @@ data class PhysicsX(
     val temp_min: Double
 )
 
-data class CloudsX(
+data class Clouds(
     val all: Int
 )
 
@@ -53,18 +53,18 @@ data class Geo(
     val lon: Double
 )
 
-data class RainX(
+data class Rain(
     val `1h`: Double
 )
 
-data class WeatherX(
+data class Weather(
     val description: String,
     val icon: String,
     val id: Int,
     val main: String
 )
 
-data class WindX(
+data class Wind(
     val deg: Int,
     val gust: Double,
     val speed: Double

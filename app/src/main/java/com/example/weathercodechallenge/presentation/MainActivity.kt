@@ -2,6 +2,7 @@ package com.example.weathercodechallenge.presentation
 
 import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -56,6 +57,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Single-Activity app. Entry point for Hilt dependency injection
@@ -64,14 +66,17 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private val TAG = "MainActivity"
-    val sharedPrefs = MyApp.appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    val prefsEditor = sharedPrefs.edit()
+    lateinit var sharedPrefs: SharedPreferences
+    lateinit var prefsEditor: SharedPreferences.Editor
     var isLocationAlreadyFetched = true
 
     private val vm by viewModels<WeatherViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefsEditor = sharedPrefs.edit()
 
         // Store the API key from BuildConfig to EncryptedSharedPreferences
         SecureStorage.storeApiKey(this, BuildConfig.API_KEY)

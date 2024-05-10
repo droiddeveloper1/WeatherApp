@@ -12,7 +12,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -20,8 +22,33 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppModule::class]
+)
+class TestAppModule {
+
+    @Provides
+    @Singleton
+    @Named("HelloTest")
+    fun provideString2() = "Hello, Testing!"
+
+    @Provides
+    @Singleton
+    @Named("AnotherStringTest")
+    fun provideDummyData2() = "additional string test!"
+
+
+    @Provides
+    fun provideApplicationContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
+    @Singleton
+    @Provides
+    fun provideMyApp(app: Application): MyApp{
+        return app as MyApp
+    }
 
     @Provides
     @Singleton
@@ -43,16 +70,5 @@ object AppModule {
             .client(HTTPLogger.getLogger())
             .build()
             .create(INetworkApi2::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideMyApp(app: Application): MyApp{
-        return app as MyApp
-    }
-
-    @Provides
-    fun provideApplicationContext(@ApplicationContext context: Context): Context {
-        return context
     }
 }
