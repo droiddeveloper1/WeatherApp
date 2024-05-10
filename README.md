@@ -16,3 +16,6 @@ auto-populate the UI fields with local weather.
 - move the API key away from BuildConfig and into JNI/C++ layer instead
 - handle case of ungranted permissions in the LocationManager class (display some message in the UI etc.)
 - fix positioning of snackbar to appear above the virtual keyboard and eliminate its late/duplicate instantiation
+
+
+-Oke Uwechue, Ph.D.
