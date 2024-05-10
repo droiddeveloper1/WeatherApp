@@ -11,7 +11,7 @@ auto-populate the UI fields with local weather.
 # @ToDo
 - add unit tests to cover the domain layer use cases and add more dependency injections as needed to facilitate unit testing
 - fix instrumented unit tests 
-- complete transition from *SharedPreferences* mechanism to *Preferences Datastore* mechanism
+- replace *SharedPreferences* mechanism with *Preferences Datastore* mechanism
 - create a flexible Units selection mechanism instead of hardcoding to metric units
 - move the API key away from BuildConfig and into JNI/C++ layer instead
 - refactor the location permissions mechanism to auto-fetch&display immediately after the *initial* app install. (Currently will only auto-fetch for subsequent usages of the app, not at the very first session.)
