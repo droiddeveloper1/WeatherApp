@@ -10,9 +10,7 @@ import com.example.weathercodechallenge.repository.INetworkApi
 import com.example.weathercodechallenge.repository.INetworkApi2
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import retrofit2.Retrofit
@@ -46,7 +44,7 @@ class TestAppModule {
 
     @Singleton
     @Provides
-    fun provideMyApp(app: Application): MyApp{
+    fun provideMyApp(app: Application): MyApp {
         return app as MyApp
     }
 

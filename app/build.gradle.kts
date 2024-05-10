@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.example.weathercodechallenge.HiltTestRunner" //= "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.weathercodechallenge.CustomTestRunner" //= "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }

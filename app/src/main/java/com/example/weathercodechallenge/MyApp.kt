@@ -12,9 +12,13 @@ import dagger.hilt.android.HiltAndroidApp
  * interaction with Java classes will need to add ugly null-checking syntax as we can never be
  * sure just what data Java will pass.
  *
+ * For now, this class has been made 'open' in order to allow instrumented tests to run
+ * using my custom test runner.
+ * ToDo: explore a workaround that does not require the use of the 'open' prefix
+ *
  */
 @HiltAndroidApp
-class MyApp: Application(){
+open class MyApp: Application(){
 
     override fun onCreate() {
         super.onCreate()

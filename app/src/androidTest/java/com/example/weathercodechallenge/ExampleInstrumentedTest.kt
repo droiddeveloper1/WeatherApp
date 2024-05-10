@@ -1,14 +1,12 @@
 package com.example.weathercodechallenge
 
-import android.content.Context
+
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.weathercodechallenge.presentation.MainActivity
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
 
 import org.junit.Test
 
@@ -49,7 +47,7 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        val ctx = InstrumentationRegistry.getInstrumentation().context // .targetContext
+        val ctx = InstrumentationRegistry.getInstrumentation().targetContext
         Thread.sleep(500)
         assertEquals("com.example.weathercodechallenge", ctx.packageName)
     }
