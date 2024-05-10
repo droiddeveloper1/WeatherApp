@@ -16,14 +16,23 @@ Dagger-Hilt
 MVVM
 
 Coroutines
+
 Flow
+
 Retrofit
+
 Okhttp
+
 Coil
+
 Jetpack Compose
+
 Jetpack Navigation
+
 Location Services
+
 JUnit
+
 Mockito
 
 
