@@ -6,6 +6,21 @@ current weather conditions in that city.
 Requests location access in order to perform a reverse geo lookup, determine the local city name, then fetch the weather info and
 auto-populate the UI fields with local weather.
 
+# Technologies used
+Kotlin
+Gradle kts
+Dagger-Hilt
+MVVM
+Coroutines
+Flow
+Retrofit
+Okhttp
+Coil
+Jetpack Compose
+Jetpack Navigation
+Location Services
+JUnit
+Mockito
 
 
 # @ToDo
