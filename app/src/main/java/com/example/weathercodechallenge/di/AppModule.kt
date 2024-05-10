@@ -3,8 +3,10 @@ package com.example.weathercodechallenge.di
 import android.app.Application
 import com.example.weathercodechallenge.MyApp
 import com.example.weathercodechallenge.repository.BASE_DATA_URL
+import com.example.weathercodechallenge.repository.BASE_REVERSE_GEO_URL
 import com.example.weathercodechallenge.repository.HTTPLogger
 import com.example.weathercodechallenge.repository.INetworkApi
+import com.example.weathercodechallenge.repository.INetworkApi2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +21,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
     @Provides
     @Singleton
     fun provideINetworkApi(): INetworkApi {
@@ -29,6 +30,17 @@ object AppModule {
             .client(HTTPLogger.getLogger())
             .build()
             .create(INetworkApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideINetworkApi2(): INetworkApi2 {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_REVERSE_GEO_URL)
+            .client(HTTPLogger.getLogger())
+            .build()
+            .create(INetworkApi2::class.java)
     }
 
     @Singleton

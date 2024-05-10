@@ -2,6 +2,8 @@ package com.example.weathercodechallenge.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weathercodechallenge.common.INVALID_GEO
+import com.example.weathercodechallenge.domain.CityFromGeoLocation
 import com.example.weathercodechallenge.domain.WeatherFromCityCountryUseCase
 import com.example.weathercodechallenge.domain.WeatherFromCityStateCountryUseCase
 import com.example.weathercodechallenge.domain.WeatherFromCityUseCase
@@ -12,17 +14,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * view model for fetching and emitting weather data
+ * viewmodel for fetching and emitting weather data
  */
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val getCityWeatherUseCase: WeatherFromCityUseCase,
     private val getCityCountryWeatherUseCase: WeatherFromCityCountryUseCase,
-    private val getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase
+    private val getCityStateCountryWeatherUseCase: WeatherFromCityStateCountryUseCase,
+    private val getCityFromReverseGeoUseCase: CityFromGeoLocation
 ): ViewModel()  {
 
-    private val _data = MutableStateFlow<RelevantWeatherData?>(null)
-    val data = _data.asStateFlow()
+    private val _weatherData = MutableStateFlow<RelevantWeatherData?>(null)
+    val weatherData = _weatherData.asStateFlow()
+
+    private val _locationData = MutableStateFlow<String>("")
+    val locationData = _locationData.asStateFlow()
 
     fun fetchWeatherByCity(city: String) {
 
@@ -38,10 +44,10 @@ class WeatherViewModel @Inject constructor(
                 val icon = it.weather[0].icon
 
                 val newData = RelevantWeatherData(main, description, temperature, humidity, cloudCoverage, icon)
-                _data.value = newData
+                _weatherData.value = newData
             } ?: run {
                 // send a datum that represents a failed fetch
-                _data.value = null
+                _weatherData.value = null
             }
         }
 
@@ -57,7 +63,7 @@ class WeatherViewModel @Inject constructor(
 
             // now extract just the useful pieces of data to display to user
             //
-            // _data.value = newData
+            // _weatherData.value = newData
         }
     }
 
@@ -71,7 +77,24 @@ class WeatherViewModel @Inject constructor(
 
             // now extract just the useful pieces of data to display to user
             //
-            // _data.value = newData
+            // _weatherData.value = newData
+        }
+    }
+
+    fun fetchCityByReverseGeoLookup(lat: Double, lon: Double){
+        // only proceed with geo reverse lookup IFF valid locations present
+        if(lat != INVALID_GEO.first && lon != INVALID_GEO.second) {
+            viewModelScope.launch {
+                // fetch the data
+                val result = getCityFromReverseGeoUseCase(lat.toString(), lon.toString(), 1)
+                result?.let {
+                    val city: String = it[0].name
+
+                    _locationData.value = city
+                } ?: run {
+                    _locationData.value = ""
+                }
+            }
         }
     }
 
