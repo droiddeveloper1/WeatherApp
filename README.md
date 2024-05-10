@@ -14,6 +14,7 @@ auto-populate the UI fields with local weather.
 - replace SharedPreferences mechanism with Preferences Datastore mechanism
 - create a flexible Units selection mechanism instead of hardcoding to metric units
 - move the API key away from BuildConfig and into JNI/C++ layer instead
+- refactor the location permissions mechanism to auto-fetch&display immediately after the *initial* app install. (Currently will only auto-fetch for subsequent usages of the app, not at the very first session.)
 - handle case of ungranted permissions in the LocationManager class (display some message in the UI etc.)
 - fix positioning of snackbar to appear above the virtual keyboard and eliminate its late/duplicate instantiation
 
