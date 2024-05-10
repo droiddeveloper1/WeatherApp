@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation(libs.junit)
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.mockk)
@@ -150,9 +149,6 @@ dependencies {
     // For Robolectric tests.
     testImplementation("com.google.dagger:hilt-android-testing:2.51.1")
     kaptTest("com.google.dagger:hilt-android-compiler:2.51.1")
-    // ...with Java.
-    //androidTestAnnotationProcessor 'com.google.dagger:hilt-android-compiler:2.44'
 
-    // Testing libraries
 
 }

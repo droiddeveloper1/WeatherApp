@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -45,7 +44,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.weathercodechallenge.BuildConfig
-import com.example.weathercodechallenge.MyApp
 import com.example.weathercodechallenge.common.LocationManager
 import com.example.weathercodechallenge.repository.BASE_IMAGE_URL
 import com.example.weathercodechallenge.repository.IMAGE_SUFFIX
@@ -55,9 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Single-Activity app. Entry point for Hilt dependency injection
