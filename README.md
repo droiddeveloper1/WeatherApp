@@ -21,6 +21,8 @@ Coroutines
 
 Flow
 
+Clean Architecture (Presentation Layer, Domain Layer, Repository Layer, Dependency Injection)
+
 Retrofit
 
 Okhttp
