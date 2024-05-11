@@ -33,7 +33,7 @@ Jetpack Compose
 
 Jetpack Navigation
 
-Location Services
+LocationServices
 
 JUnit
 
