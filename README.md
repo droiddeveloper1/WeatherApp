@@ -39,6 +39,10 @@ JUnit
 
 Mockito
 
+SOLID design principle
+
+OO Encapsulation (separation of Viewmodels from Composables)
+
 
 # @ToDo
 - add unit tests to cover the domain layer use cases and add more dependency injections as needed to facilitate unit testing
