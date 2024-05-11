@@ -17,11 +17,11 @@ Dagger-Hilt
 
 MVVM
 
+Clean Architecture (Presentation Layer, Domain Layer, Repository Layer, Dependency Injection)
+
 Coroutines
 
-Flow
-
-Clean Architecture (Presentation Layer, Domain Layer, Repository Layer, Dependency Injection)
+Flow (facilitates communication between architecture layers)
 
 Retrofit
 
